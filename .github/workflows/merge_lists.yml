@@ -1,0 +1,54 @@
+name: Merge and Deduplicate List Files
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 */8 * * *'  # 每8小时执行一次
+
+jobs:
+  download-and-deduplicate:
+    runs-on: ubuntu-20.04  # 指定 Ubuntu 版本
+    
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: 'main'  # 明确指定分支名
+      
+      - name: Install necessary tools
+        run: sudo apt-get update && sudo apt-get install -y curl jq
+      
+      - name: Download external list files
+        run: |
+          urls=(
+            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.list"
+            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.list"
+            "https://raw.githubusercontent.com/Aethersailor/Custom_OpenClash_Rules/main/rule/Custom_Direct.list"
+            "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/GoogleCN.list"
+            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SteamCN/SteamCN.list"
+            "https://raw.githubusercontent.com/Aethersailor/Custom_OpenClash_Rules/main/rule/Steam_CDN.list"
+            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PrivateTracker/PrivateTracker.list"
+            "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list"
+            "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list"
+            "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaIp.list"
+            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.list"
+          )
+          for url in "${urls[@]}"; do
+            curl -O "${url}" || { echo "Failed to download ${url}"; exit 1; }
+          done
+      
+      - name: Merge and remove duplicates
+        run: |
+          cat *.list > combined.list
+          sort combined.list | uniq > direct.list
+          rm *.list combined.list
+      
+      - name: Upload final list to repository
+        run: |
+          git config --local user.email "haoboy3344@gmail.com"
+          git config --local user.name "An Feng"
+          git add direct.list
+          git commit -m "Update direct list with deduplicated entries $(date +'%Y-%m-%d')"
+          git push
