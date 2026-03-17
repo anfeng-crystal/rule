@@ -258,7 +258,7 @@ rule-providers:
   Spotify: { type: http, behavior: classical, format: text, path: ./ruleset/repcz-spotify.list, url: "https://raw.githubusercontent.com/Repcz/Tool/X/mihomo/Rules/Spotify.list", interval: 86400 }
   PayPal: { type: http, behavior: classical, format: text, path: ./ruleset/repcz-paypal.list, url: "https://raw.githubusercontent.com/Repcz/Tool/X/mihomo/Rules/PayPal.list", interval: 86400 }
   Microsoft: { type: http, behavior: classical, format: text, path: ./ruleset/repcz-microsoft.list, url: "https://raw.githubusercontent.com/Repcz/Tool/X/mihomo/Rules/Microsoft.list", interval: 86400 }
-  Speedtest: { type: http, behavior: classical, format: text, path: ./ruleset/repcz-speedtest.list, url: "https://raw.githubusercontent.com/Repcz/Tool/X/mihomo/Rules/Speedtest.list", interval: 86400 }
+  Speedtest: { type: http, behavior: classical, format: yaml, path: ./ruleset/repcz-speedtest.list, url: "https://raw.githubusercontent.com/Emyori/blackmatrix7/refs/heads/master/rule/Clash/Speedtest/Speedtest.yaml", interval: 86400 }
   Steam: { type: http, behavior: classical, format: text, path: ./ruleset/repcz-steam.list, url: "https://raw.githubusercontent.com/Repcz/Tool/X/mihomo/Rules/Steam.list", interval: 86400 }
   YouTube: { type: http, behavior: classical, format: text, path: ./ruleset/repcz-youtube.list, url: "https://raw.githubusercontent.com/Repcz/Tool/X/mihomo/Rules/YouTube.list", interval: 86400 }
   TikTok: { type: http, behavior: classical, format: text, path: ./ruleset/repcz-tiktok.list, url: "https://raw.githubusercontent.com/Repcz/Tool/X/mihomo/Rules/TikTok.list", interval: 86400 }
